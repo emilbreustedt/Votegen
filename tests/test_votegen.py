@@ -5,7 +5,7 @@ This file contains test for all combinations of the input parameters of the func
 The output of the functions are tested on equality.
 '''
 
-from votegen import generators
+from votegen.generators import *
 import pytest
 from PyNormaliz import *
 import itertools
