@@ -7,20 +7,26 @@ and PyNormaliz https://pypi.org/project/PyNormaliz/
 '''
 
 from votegen.generators import *
-from PyNormaliz import *
+from PyNormaliz import Multiplicity
+import itertools
 
-for candidates in range (2, 5):
-    print("Condition: " + str(candidates))
+# get cases
+cases = itertools.product(*[range (2, 5), # candidates
+                            ["plurality", "majority"], # mode
+                                             [True, False]]) # total_degree
+
+for case in cases:
+    candidates, mode, total_degree = case
     print()
-
-    ineq = get_inequality(candidates = candidates)
-    print("get_inequality List:\n" + str(ineq))
-    C = Cone(inequalities = ineq)
-    print("get_inequality plurality Multiplicity: " + str(C.Multiplicity()))
+    print(" ".join(["Candidates:", str(candidates), "\nMode:", mode, "\nTotal Degree:", str(total_degree)]))
+    
+    write_ineq = write_inequality(candidates, mode, True, total_degree)
+    write_cone = build_cone(path = write_ineq)
+    
+    get_ineq = get_inequality(candidates, mode)
+    print(get_ineq)
+    get_cone = build_cone(inequalities=get_ineq, total_degree=total_degree)
     print()
     
-    ineq_path = write_inequality(candidates = candidates)
-    # print(ineq_path)
-    C = Cone(file = ineq_path)
-    print("write_inequality plurality Multiplicity: " + str(C.Multiplicity()))
-    print()
+    print("get_inequality Multiplicity: " + str(get_cone.Multiplicity()))
+    print("write_inequality Multiplicity: " + str(write_cone.Multiplicity()))
