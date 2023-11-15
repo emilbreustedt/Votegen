@@ -12,20 +12,21 @@ import itertools
 
 # generate different output combinations
 @pytest.mark.parametrize("candidates, mode, positive, total_degree", 
-                         itertools.product(*[range (2, 5), 
-                                             ["plurality", "majority"], 
-                                             [True, False], 
-                                             [True, False]]))
+                         itertools.product(*[range (2, 5), # candidates
+                                             ["plurality", "majority"], # mode
+                                             [True, False], # positive
+                                             [True, False]])) # total_degree
 
 # test function
 def test_equality(candidates, mode, positive, total_degree):
     
     # get outputs for different inputs
-    get_ineq = generators.get_inequality(candidates, mode, positive, total_degree)
-    write_ineq = generators.write_inequality(candidates, mode, positive, total_degree)
+    get_ineq = get_inequality(candidates, mode, positive, total_degree)
+    write_ineq = write_inequality(candidates, mode, positive, total_degree)
 
     # calculate cones
     get_cone = Cone(inequalities = get_ineq)
+
     write_cone = Cone(file = write_ineq)
     
     # test on equality    

@@ -84,9 +84,10 @@ def get_inequality(candidates: int = 4,
     if positive:
         inequalities = np.concatenate((inequalities, 
                                    np.identity(math.factorial(candidates), dtype = int)))
+    # TODO
     if total_degree:
         pass
-
+    
     return inequalities
         
         
