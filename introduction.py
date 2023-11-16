@@ -21,7 +21,7 @@ for case in cases:
     print(" ".join(["Candidates:", str(candidates), "\nMode:", mode, "\nTotal Degree:", str(total_degree)]))
     
     write_ineq = write_inequality(candidates, mode, True, total_degree)
-    write_cone = build_cone(path = write_ineq)
+    write_cone = build_cone(file = write_ineq)
     
     get_ineq = get_inequality(candidates, mode)
     print(get_ineq)

@@ -25,7 +25,7 @@ def test_equality(candidates, mode, total_degree):
 
     # calculate cones
     get_cone = build_cone(inequalities=get_ineq, total_degree=total_degree)
-    write_cone = build_cone(path = write_ineq, total_degree=total_degree)
+    write_cone = build_cone(file = write_ineq, total_degree=total_degree)
     
     # test on equality    
     assert get_cone.Multiplicity() == write_cone.Multiplicity()

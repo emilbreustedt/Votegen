@@ -84,28 +84,28 @@ def get_inequality(candidates: int = 4,
     return inequalities
 
 def build_cone(inequalities: list = None, 
-               path: str = None,
+               file: str = None,
                total_degree: bool = None) -> Cone:
     """
     build_cone() builds a PyNormaliz cone either from a file or from a nested input list.
 
     :param inequalities: Nested list of inequalities.
-    :param path: Path to an input file.
+    :param file: File to an input file.
     :param total_degree: Whether or not the total degreee of inequalities should be considered. Only relevant if build by list.
     :return: The cone corresponding to the input.
     """
-    # check for exact one parameter given and warn for path+total_degree case
-    if (inequalities is None) and (path is None):
-        raise ValueError("One argument must be provided (list of inequalities ot path of file).")
-    elif (inequalities is not None) and (path is not None):
-        raise ValueError("Only one argument of inequalities or path is allowed.")
-    elif (total_degree is not None) and (path is not None):
-        print("Warning: A path was specified in build_cone().\nThe cone is build via the input file.\nThe total_degree parameter won't be considered.\n")
+    # check for exact one parameter given and warn for file+total_degree case
+    if (inequalities is None) and (file is None):
+        raise ValueError("One argument must be provided (list of inequalities ot file of file).")
+    elif (inequalities is not None) and (file is not None):
+        raise ValueError("Only one argument of inequalities or file is allowed.")
+    elif (total_degree is not None) and (file is not None):
+        print("Warning: A file was specified in build_cone().\nThe cone is build via the input file.\nThe total_degree parameter won't be considered.\n")
 
     # Generate cone
     # either from file
-    if path is not None:
-        cone = Cone(file = path)
+    if file is not None:
+        cone = Cone(file = file)
     # or from list
     else:
         cone = Cone(inequalities = inequalities)
