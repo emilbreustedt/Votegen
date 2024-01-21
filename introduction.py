@@ -7,7 +7,6 @@ and PyNormaliz https://pypi.org/project/PyNormaliz/
 '''
 
 from votegen.generators import *
-from PyNormaliz import Multiplicity
 import itertools
 
 # get cases

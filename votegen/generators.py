@@ -24,27 +24,34 @@ def write_inequality(candidates: int = 4,
     else:
         n_inequalities = candidates-1
     
-    # write Header
+    # Write header
     inequality = "\n".join(["amb_space " + str(math.factorial(candidates)), "inequalities " + str(n_inequalities)])
 
-    # generate plurality Inequalities
+    # Generate plurality inequalities
     for candidate in range(n_inequalities):
-        # write first column
+        
+        # First block column always 1
         inequality = "\n".join([inequality, "1 "*block_size])
+        
+        # Every other block column
         for block_col in range(candidates-1):
+            
+            # -1 if on diagonal or in majority voting
             if candidate == block_col or mode == "majority":
                 inequality = "  ".join([inequality, "-1 "*block_size])
+            
+            # 0 else
             else:
                 inequality = "  ".join([inequality, " 0 "*block_size])
 
-    # write Footer
+    # Write footer
     if positive:
         inequality = "\n".join([inequality, "nonnegative"])
     
     if total_degree:
         inequality = "\n".join([inequality, "total_degree"])
 
-    # write File
+    # Write File
     filename = "_".join([filename, mode, str(candidates) + "cand"])
     with open(".".join([filename, "in"]), 'w') as f:
         f.write(inequality)
@@ -62,22 +69,34 @@ def get_inequality(candidates: int = 4,
     :return: The inequality to be used as the "inequalities" paramter for the Cone class..
     """ 
     inequalities = []
+    # Get block size (columns/block)
     block_size = math.factorial(candidates-1)
+    
+    # Only one inequality for majority voting
     if mode == "majority":
         n_inequalities = 1
     else:
         n_inequalities = candidates-1
                 
-    # generate Inequalities
+    # Generate inequalities
+    # Rows = n_inequalities
     for candidate in range(n_inequalities):
+        
+        # First block column always 1
         inequalities.append([1]*block_size)
+        
+        # Every other block column
         for block_col in range(candidates-1):
+            
+            # -1 if on diagonal or in majority voting
             if candidate == block_col or mode == "majority":
                 inequalities[candidate]+=[-1]*block_size
+                
+            # 0 else
             else:
                 inequalities[candidate]+=[0]*block_size
     
-    # append identity matrix
+    # append identity matrix of candidates! x candidates!
     inequalities = np.concatenate((inequalities, 
                                 np.identity(math.factorial(candidates), dtype = int)))
 
@@ -96,7 +115,7 @@ def build_cone(inequalities: list = None,
     """
     # check for exact one parameter given and warn for file+total_degree case
     if (inequalities is None) and (file is None):
-        raise ValueError("One argument must be provided (list of inequalities ot file of file).")
+        raise ValueError("One argument must be provided (list of inequalities or file).")
     elif (inequalities is not None) and (file is not None):
         raise ValueError("Only one argument of inequalities or file is allowed.")
     elif (total_degree is not None) and (file is not None):
